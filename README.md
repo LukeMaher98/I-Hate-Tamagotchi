@@ -1,2 +1,2 @@
 # I-Hate-Tamagotchi
-A+ Name
+A+++ Name
