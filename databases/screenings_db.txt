@@ -1,0 +1,7 @@
+Die Hard,1, 11:00, 18:00, 
+Monty Python And The Holy Grail,2, 13:00, 21:00, 
+Memento,7, 03:00, 
+Rain Man,3, 16:00, 19:45, 
+Gattaca,4, 09:00, 11:00, 
+Top Secret,7, 12:00, 
+Midsommar,9, 23:59, 00:00, 

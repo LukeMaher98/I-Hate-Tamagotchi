@@ -1,0 +1,6 @@
+LennartMantel,Screen 7 -  Memento,03:00,
+LennartMantel,Screen 7 -  Top Secret,12:00,
+LennartMantel,Screen 4 -  Gattaca,11:00,
+LukeMaher,Screen 7 -  Memento,03:00,
+LennartMantel,Screen 9 -  Midsommar,23:59,
+LennartMantel,Screen 3 -  Rain Man,16:00,
