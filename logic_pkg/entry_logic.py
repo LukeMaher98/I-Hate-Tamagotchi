@@ -3,7 +3,7 @@ import requests
 import abc
 
 class Invoker:
-    # Ask command to carry out request
+    # sends request to command
     def __init__(self):
         self._commands = []
 
@@ -15,7 +15,7 @@ class Invoker:
             command.execute()
 
 class Command(metaclass=abc.ABCMeta):
-    #Declare an interface for executing an operation
+    #interface for all concrete commands
     def __init__(self, login):
         self._login = login
 
@@ -23,40 +23,52 @@ class Command(metaclass=abc.ABCMeta):
     def execute(self):
         pass
 
-class LoginCommand(Command) : 
+
     #Define a binding between a Receiver object and an action.
     #Implement Execute by invoking the corresponding operation(s) on
     #Receiver. 
+class UserLoginCommand(Command) : 
 
-    def execute(self) :
-        self._login.Login()
-    
-
-class User_Login :
-    #Reciever Class
-    def __init__(self, userName):
+    def __init__(self, receiver, userName):
+        self._receiver = receiver
         self._userName = userName
 
-    def Login(self):
+
+    def execute(self) :
+        self._receiver.user_login(self._userName)
+
+
+class AdminLoginCommand(Command) : 
+
+    def __init__(self, receiver, userName):
+        self._receiver = receiver
+        self._userName = userName
+
+
+    def execute(self) :
+        self._receiver.admin_login(self._userName)
+    
+
+#Reciever below
+class Receiver :
+    
+    def user_login(self, userName):
         ui_controller.ui.get_current_ui().Hide()
         ui_controller.ui.open_main_menu_user_ui()
-        ui_controller.ui.set_current_user(self._userName)
-        logic_controller.logic.set_current_user(self._userName)
+        ui_controller.ui.set_current_user(userName)
+        logic_controller.logic.set_current_user(userName)
         logic_controller.logic.set_main_menu_user_loop()
         logic_controller.logic.set_auth_type("user")
 
-    
-class Admin_Login : 
-    def __init__(self, userName):
-        self._userName = userName
-
-    def Login(self):
+    def admin_login(self, userName):
         ui_controller.ui.get_current_ui().Hide()
         ui_controller.ui.open_main_menu_admin_ui()
-        ui_controller.ui.set_current_user(self._userName)
-        logic_controller.logic.set_current_user(self._userName)
+        ui_controller.ui.set_current_user(userName)
+        logic_controller.logic.set_current_user(userName)
         logic_controller.logic.set_main_menu_admin_loop()
-        logic_controller.logic.set_auth_type("admin")    
+        logic_controller.logic.set_auth_type("admin")  
+
+    
 
 def loginEventLoop(window, event, values):
     window['-USERNAME-'].update("")
@@ -114,18 +126,17 @@ def validateLogin(window, username, password):
     usernames = loginData.readline().split(",")
     passwords = loginData.readline().split(",")
     authTypes = loginData.readline().split(",")
+    receiver = Receiver()
+    invoker = Invoker()
     if username in usernames:
         if password == passwords[usernames.index(username)]:
-            invoker = Invoker()
             if authTypes[usernames.index(username)] == "admin":
-                admin_login = Admin_Login(username)
-                login_command = LoginCommand(admin_login)
-                invoker.store_command(login_command)
+                admin_login = AdminLoginCommand(receiver, username)
+                invoker.store_command(admin_login)
                 invoker.execute_commands()
             else:
-                user_login = User_Login(username)
-                login_command = LoginCommand(user_login)
-                invoker.store_command(login_command)
+                user_login = UserLoginCommand(receiver, username)
+                invoker.store_command(user_login)
                 invoker.execute_commands()
         else:
             window['-OUTPUT-'].update("Entered password is invalid")
