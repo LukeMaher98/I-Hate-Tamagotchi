@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # The-A-Ter
 Prerequisites:
     - Python 3 (Possible incompatibilities if -v < 3.9)  
@@ -43,7 +42,5 @@ Software Metrics:
 Dev Ops:
     -   User Flow diagrams for several primary use cases  
     -   Overview of adherence to Agile software devlopment principles  
-=======
 # I-Hate-Tamagotchi
 A+++ Name
->>>>>>> 0220d43fccfdd0b8fcbc08db1f5b6c20d6690be7

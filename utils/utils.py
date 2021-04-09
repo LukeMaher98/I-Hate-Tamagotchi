@@ -2,6 +2,16 @@ from entities import listings
 from entities import list_objects
 import re
 
+def read_file(filename):
+    data = open(filename, "r")
+    list = []
+    for line in data: 
+        currentline = line.split(",")
+        # Remove empty items
+        currentline = currentline[:-1]
+        list.append(currentline)
+    return list
+
 def get_view_list(type, filename):
         listData = open(filename, "r")
         lineData = listData

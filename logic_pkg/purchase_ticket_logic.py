@@ -13,9 +13,9 @@ def purchaseTicketLoop(window, event, values):
             title, time = utils.title_times_split(values['-List-'][0], False)
             buyTicket(title)
             sg.popup('Ticket purchased for: {} at {}'.format(title, time[0]))
-            requests.post("https://logs-01.loggly.com/inputs/990e729b-d1a0-4ad1-a774-78d9c11a93c7/tag/http/", json={
-            "PurchaseTicket": "Success",
-        })
+        #     requests.post("https://logs-01.loggly.com/inputs/990e729b-d1a0-4ad1-a774-78d9c11a93c7/tag/http/", json={
+        #     "PurchaseTicket": "Success",
+        # })
             backToMenu()
         except:
             sg.popup("Select a time first")

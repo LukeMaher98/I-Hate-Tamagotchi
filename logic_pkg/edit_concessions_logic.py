@@ -2,108 +2,69 @@ import PySimpleGUI as sg
 from controllers import ui_controller, logic_controller
 from utils import utils
 import re
-from entities import listings
 
-concessionSales = utils.get_list("databases/concession_sales_db.txt")
+filename = "databases/concessions_db.txt"
 
 def eventLoop(window, event, values):
-    concFile = "databases/concessions_db.txt"
-    saleFile = "databases/concession_sales_db.txt"
-
     if event == 'Main Menu':
-        concessions_info = utils.get_view_list("concessions","databases/concessions_db.txt")
-        concessions_list = listings.list_factory.create_list("concession",concessions_info)
-        concession_screen = concessions_list.generate_list()
+        data = utils.read_file(filename)
+        concession_screen = data[0]
         window['-CONCESSIONS-'].update(values=concession_screen)
         backToMenu()
-    if event == 'Save':
-        utils.save_to_file(concFile, window['-CONCESSIONS-'].get_list_values())
-        utils.save_list(saleFile, concessionSales)
-        sg.popup("Saved Concessions")
     if event == 'Add Concession':
-        text = sg.popup_get_text("Add concession in format 'ConcessionName,Price'")
-        if text != None:
-            v = window['-CONCESSIONS-'].get_list_values() 
-            m = convertToDisplayForm(text)
-            v.append(m)
-            s = appendToSales(text)
-            if s != None:
-                concessionSales.append(s)
-            window['-CONCESSIONS-'].update(values=v)
-        else:
-            sg.popup("Concessions must be in format 'ConcessionName,Price'")
+        data = utils.read_file(filename)
+        if len(data) > 1:
+            items = ''.join([str(elem) + "," for elem in data[1]])
+            text = sg.popup_get_text(f"Add one of the following concessions: {items}")
+            if text in data[1]:
+                add_concession(text)
+                data = utils.read_file(filename)
+                concession_screen = data[0]
+                window['-CONCESSIONS-'].update(values=concession_screen)
+            else:
+                sg.popup(f"Concessions must be one of the following: {items}")
+        else: 
+            sg.popup(f"All Concessions have already been added")
     if event == 'Delete Selected':
         try:
-            d = values['-CONCESSIONS-'][0]
-            v = deleteSelected(d, window['-CONCESSIONS-'].get_list_values())
-            window['-CONCESSIONS-'].update(values=v)
+            text = values['-CONCESSIONS-'][0]
+            remove_concession(text)
+            data = utils.read_file(filename)
+            concession_screen = data[0]
+            window['-CONCESSIONS-'].update(values=concession_screen)
         except:
             sg.popup("Select concession to be deleted first!") 
-    if event == '-CONCESSIONS-':
-        text = sg.popup_get_text("Edit concession in format 'ConcessionName,Price'",
-            default_text=convertToEditForm(values['-CONCESSIONS-'][0]))
-        if text != None:
-            i = window['-CONCESSIONS-'].get_indexes()
-            j = getMatchingIndex(values['-CONCESSIONS-'][0], concessionSales)
-            v = window['-CONCESSIONS-'].get_list_values()
-            try:
-                m = convertToDisplayForm(text)
-                v[i[0]] = m
-                concessionSales[j] = editSales(text, concessionSales[j])
-                window['-CONCESSIONS-'].update(values=v)
-            except:
-                return
-        else:
-            sg.popup("Concessions must be in format 'ConcessionName,Price'")
 
 def backToMenu():
     ui_controller.ui.get_current_ui().Hide()
     ui_controller.ui.open_main_menu_admin_ui()
     logic_controller.logic.set_main_menu_admin_loop()
 
-def convertToEditForm(input):
-    element = input.split(":")
-    output = element[0] + ","
-    element[1] = element[1].replace(" ", "")
-    output = output + element[1].removesuffix("e\n")
+def add_concession(text):
+    data = utils.read_file(filename)
+    f = open(filename, "w")
+    present = ''.join([str(elem) + "," for elem in data[0]])
+    present += text + ",\n"
 
-    return output
+    data[1].remove(text)
+    absent = ''.join([str(elem) + "," for elem in data[1]])
 
-def convertToDisplayForm(input):
-    element = input.split(",")
-    output = element[0] + ":"
-    if re.match("[0-9]+", element[1]):
-        output += " "+ element[1] + "e\n"
-        return output
+    f.write(present+absent)
 
-def deleteSelected(delete, values):
-    output = []
-    for v in values:
-        if v != delete:
-            output.append(v)
+def remove_concession(text):
+    data = utils.read_file(filename)
+    f = open(filename, "w")
 
-    return output
+    data[0].remove(text)
+    present = ''.join([str(elem) + "," for elem in data[0]])
+    present += "\n"
 
-def appendToSales(input):
-    v = input.split(",")
-    for c in concessionSales:
-        n = c.split(",")
-        if n[0] == v[0]:
-            return None
-    return(v[0]+",0,\n")
+    if len(data) > 1:
+        absent = ''.join([str(elem) + "," for elem in data[1]])
+        absent += text + ","
+    else:
+        absent = text + ","
 
-def editSales(new, old):
-    n = new.split(",")
-    o = old.split(",")
+    f.write(present+absent)
 
-    output = n[0] + "," + o[1] + "," + o[2]
-    return output
 
-def getMatchingIndex(item, list):
-    counter = 0
-    i = item.split(":")
-    for l in list:
-        t = l.split(",")
-        if t[0] == i[0]:
-            return counter 
-        counter = counter + 1
