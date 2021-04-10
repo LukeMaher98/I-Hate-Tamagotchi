@@ -1,8 +1,1 @@
-Kids Combo, 10e
-Popcorn, 7e
-Drink, 4e
-Hot Dog, 7e
-Nachos, 6e
-Chocolate Bites, 4e
-Twix, 7e
-Pizza, 15e
+popcorn,hotdog,cola,nachos,

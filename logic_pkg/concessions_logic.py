@@ -9,8 +9,9 @@ def concessionsEventLoop(window, event, values):
         sg.popup(f'{"Subtotal: "}{logic_controller.logic.get_concessions_subtotal()}{"e"}')
         concessions = logic_controller.logic.get_concessions_basket()
         for item in concessions:
-            title = item.split(":")[0]
-            buyConcession(title)
+            title = item.split(": ")[1]
+            name = title.split(',')[0]
+            buyConcession(name)
         emptyBasket(window)
         backToMenu()
     if event == '-LIST-':
@@ -71,9 +72,12 @@ def buyConcession(concession):
     if not found:
         concessionSales += concession+",1,\n"
 
-    requests.post("https://logs-01.loggly.com/inputs/990e729b-d1a0-4ad1-a774-78d9c11a93c7/tag/http/", json={
-            "ConcessionPurchased": "Success",
-        })
+    subtotal = 0
+    logic_controller.logic.set_concessions_subtotal(subtotal)
+
+    # requests.post("https://logs-01.loggly.com/inputs/990e729b-d1a0-4ad1-a774-78d9c11a93c7/tag/http/", json={
+    #         "ConcessionPurchased": "Success",
+    #     })
 
     db = open("databases/concession_sales_db.txt", "w")
     db.write(concessionSales)
