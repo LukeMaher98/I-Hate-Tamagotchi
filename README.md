@@ -44,3 +44,10 @@ Dev Ops:
     -   Overview of adherence to Agile software devlopment principles  
 # I-Hate-Tamagotchi
 A+++ Name
+
+
+Bugs:
+
+Failure of updated values when changing in user and switching to admin, ie. tickets.
+
+Empty basket click crash.
