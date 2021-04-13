@@ -19,7 +19,7 @@ def eventLoop(window, event, values):
         utils.save_list(file, s)
         sg.popup("Saved Screenings")
     if event == 'Add Screening':
-        text = sg.popup_get_text("Add screening in format 'MovieTitle,Screen,Time1,...,TimeN")
+        text = sg.popup_get_text("Add screening in format 'MovieTitle, Screen No, 2D or 3D, Subtitled or Not Subtitled, Time1,...,TimeN")
         if text != None:
             v = window['-MOVIES-'].get_list_values()
             m = utils.convertToDisplayForm(text)

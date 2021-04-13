@@ -13,27 +13,27 @@ class AbstractFactory(ABC):
 
 class MovieStandard(AbstractFactory):
 
-    def create_2D_movie(self, name, screen) -> AbstractMovie2D:
-        return Movie2D(name, screen)
+    def create_2D_movie(self, name, screen, showTimes) -> AbstractMovie2D:
+        return Movie2D(name, screen, showTimes)
 
-    def create_3D_movie(self, name, screen) -> AbstractMovie3D:
-        return Movie3D(name, screen)
+    def create_3D_movie(self, name, screen, showTimes) -> AbstractMovie3D:
+        return Movie3D(name, screen, showTimes)
 
 
 class MovieSubtitled(AbstractFactory):
 
-    def create_2D_movie(self, name, screen) -> AbstractMovie2D:
-        return SubtitledMovie2D(name, screen)
+    def create_2D_movie(self, name, screen, showTimes) -> AbstractMovie2D:
+        return SubtitledMovie2D(name, screen, showTimes)
 
-    def create_3D_movie(self, name, screen) -> AbstractMovie3D:
-        return SubtitledMovie3D(name, screen)
+    def create_3D_movie(self, name, screen, showTimes) -> AbstractMovie3D:
+        return SubtitledMovie3D(name, screen, showTimes)
 
 
 ## NUMBER ONE ##############################################################
 class AbstractMovie2D(ABC):
 
     @abstractmethod
-    def create_movie(self, name, screen) -> str:
+    def create_movie(self, name, screen, showTimes) -> str:
         pass
     @abstractmethod
     def get_movie_title(self) :
@@ -47,14 +47,18 @@ class AbstractMovie2D(ABC):
     @abstractmethod
     def get_movie_type(self):
         pass
+    @abstractmethod
+    def get_movie_showTimes(self):
+        pass
 
 class Movie2D(AbstractMovie2D):
 
-    def __init__(self, name, screen):
+    def __init__(self, name, screen, showTimes):
         self.name = name
         self.screen = screen
         self.type = "2D"
         self.subtitled = "Not Subtitled"
+        self.showTimes = showTimes
 
     def create_movie(self, name, screen ) -> str:
         self.name = name
@@ -75,14 +79,18 @@ class Movie2D(AbstractMovie2D):
 
     def get_movie_type(self):
         return self.type
+    
+    def get_movie_showTimes(self):
+        return self.showTimes
 
 class SubtitledMovie2D(AbstractMovie2D):
 
-    def __init__(self, name, screen):
+    def __init__(self, name, screen, showTimes):
         self.name = name
         self.screen = screen
         self.type = "2D"
         self.subtitled = "Subtitled"
+        self.showTimes = showTimes
 
     def create_movie(self, name, screen ) -> str:
         self.name = name
@@ -103,6 +111,9 @@ class SubtitledMovie2D(AbstractMovie2D):
 
     def get_movie_type(self):
         return self.type
+    
+    def get_movie_showTimes(self):
+        return self.showTimes
 
 
 ## NUMBER TWO #####################################################################
@@ -123,13 +134,17 @@ class AbstractMovie3D(ABC):
     @abstractmethod
     def get_movie_type(self):
         pass
+    @abstractmethod
+    def get_movie_showTimes(self):
+        pass
 
 class Movie3D(AbstractMovie3D):
-    def __init__(self, name, screen):
+    def __init__(self, name, screen, showTimes):
         self.name = name
         self.screen = screen
         self.type = "3D"
         self.subtitled = "Not Subtitled"
+        self.showTimes = showTimes
 
     def create_movie(self, name, screen ) -> str:
         self.name = name
@@ -150,14 +165,18 @@ class Movie3D(AbstractMovie3D):
 
     def get_movie_type(self):
         return self.type
+    
+    def get_movie_showTimes(self):
+        return self.showTimes
 
 
 class SubtitledMovie3D(AbstractMovie3D):
-    def __init__(self, name, screen):
+    def __init__(self, name, screen, showTimes):
         self.name = name
         self.screen = screen
         self.type = "3D"
         self.subtitled = "Subtitled"
+        self.showTimes = showTimes
 
     def create_movie(self, name, screen ) -> str:
         self.name = name
@@ -178,3 +197,6 @@ class SubtitledMovie3D(AbstractMovie3D):
 
     def get_movie_type(self):
         return self.type
+    
+    def get_movie_showTimes(self):
+        return self.showTimes

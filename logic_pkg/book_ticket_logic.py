@@ -11,6 +11,8 @@ def bookTicketLoop(window, event, values):
     if event == 'Book Ticket':
         try:
             title, time = utils.title_times_split(values['-List-'][0], False)
+            print(title)
+            print(time)
             user = ui_controller.ui._current_user
             sg.popup('Ticket booked for: {} at {}'.format(title, time[0]))
             addBooking(user, title, time[0])

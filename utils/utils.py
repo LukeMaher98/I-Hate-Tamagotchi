@@ -184,18 +184,25 @@ def get_movie_objetcs(screenings_info):
 
     for line in screenings_info:
         movie_info = line.split(',')
-        #print(movie_info)
+        show_times = []
+        output = ""
+
+        i = 4
+        while i < len(movie_info)-1:
+            output += " "+ movie_info[i]
+            i += 1
+        show_times.append(output)
 
         if(movie_info[2] == "2D"):
             if(movie_info[3] == "Subtitled"):
-                movie = factorySubtitled.create_2D_movie(movie_info[0], movie_info[1])
+                movie = factorySubtitled.create_2D_movie(movie_info[0], movie_info[1], show_times)
             else:
-                movie = factoryStandard.create_2D_movie(movie_info[0], movie_info[1])
+                movie = factoryStandard.create_2D_movie(movie_info[0], movie_info[1], show_times)
         if(movie_info[2] == "3D"):
             if(movie_info[3] == "Subtitled"):
-                movie = factorySubtitled.create_3D_movie(movie_info[0], movie_info[1])
+                movie = factorySubtitled.create_3D_movie(movie_info[0], movie_info[1], show_times)
             else:
-                movie = factoryStandard.create_3D_movie(movie_info[0], movie_info[1])
+                movie = factoryStandard.create_3D_movie(movie_info[0], movie_info[1], show_times)
         
         screenings_list.append(movie)
 
