@@ -36,6 +36,15 @@ class Concession:
     def setPrice(self, price):
         self.__price = price
 
+    def getName(self):
+        return self.__name.name
+
+    def getQuantity(self):
+        return self.__quantity.quantity
+
+    def getPrice(self):
+        return self.__price.price
+
     def specification(self):
         return f"Name: {self.__name.name}, Quantity: {self.__quantity.quantity}, Price: {self.__price.price}"
 
@@ -51,7 +60,7 @@ class PopcornBuilder(Builder):
 
     def getName(self):
         name = Name()
-        Name.name = "Popcorn"
+        name.name = "Popcorn"
         return name
 
     def getQuantity(self):
@@ -61,14 +70,14 @@ class PopcornBuilder(Builder):
 
     def getPrice(self):
         price = Price()
-        price.price = "5e"
+        price.price = 5
         return price
 
 class NachoBuilder(Builder):
 
     def getName(self):
         name = Name()
-        Name.name = "Nachos"
+        name.name = "Nachos"
         return name
 
     def getQuantity(self):
@@ -78,14 +87,14 @@ class NachoBuilder(Builder):
 
     def getPrice(self):
         price = Price()
-        price.price = "6e"
+        price.price = 6
         return price
 
 class ColaBuilder(Builder):
 
     def getName(self):
         name = Name()
-        Name.name = "Cola"
+        name.name = "Cola"
         return name
 
     def getQuantity(self):
@@ -95,14 +104,14 @@ class ColaBuilder(Builder):
 
     def getPrice(self):
         price = Price()
-        price.price = "4e"
+        price.price = 4
         return price
 
 class HotDogBuilder(Builder):
 
     def getName(self):
         name = Name()
-        Name.name = "Hot Dog"
+        name.name = "Hot Dog"
         return name
 
     def getQuantity(self):
@@ -112,7 +121,7 @@ class HotDogBuilder(Builder):
 
     def getPrice(self):
         price = Price()
-        price.price = "5e"
+        price.price = 5
         return price
 
 class Name:
