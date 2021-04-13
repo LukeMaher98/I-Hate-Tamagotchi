@@ -1,14 +1,24 @@
 import PySimpleGUI as sg
 from utils import utils
 from entities import listings
+from entities import movie_factory
 
-screenings_info = utils.get_view_list("movies","databases/screenings_db.txt")
+file = open('databases/screenings_db.txt', 'r')
+screenings_info = file.readlines()
 
-movie_list = listings.list_factory.create_list("movie",screenings_info)
-movie_screen = movie_list.generate_list()
+screenings_list = utils.get_movie_objetcs(screenings_info)
+
+movie_list_output = []
+for movie in screenings_list:
+    output = ""
+    output += "Screen: " +movie.get_movie_screen()
+    output += " "+movie.get_movie_title()
+    output += " - "+movie.get_movie_subtitled()
+    output += " - "+movie.get_movie_type()
+    movie_list_output.append(output)
 
 layout = [[sg.Text('Double click or press Enter on selected screening to edit')],
-            [sg.Listbox(movie_screen, size=(100, len(movie_screen)), key='-MOVIES-', bind_return_key=True)],
+            [sg.Listbox(movie_list_output, size=(100, len(movie_list_output)), key='-MOVIES-', bind_return_key=True)],
             [sg.Button('Save'), sg.Button('Add Screening'), sg.Button('Delete Selected'), sg.Button('Main Menu')]]
 
 heading = "Edit Screenings"

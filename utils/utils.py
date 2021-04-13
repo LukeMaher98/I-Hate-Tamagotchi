@@ -1,6 +1,7 @@
 from entities import listings
 from entities import list_objects
 import re
+from entities import movie_factory
 
 def read_file(filename):
     data = open(filename, "r")
@@ -175,3 +176,27 @@ def deleteSelected(delete, values):
             output.append(v)
 
     return output   
+
+def get_movie_objetcs(screenings_info):
+    screenings_list = []
+    factoryStandard = movie_factory.MovieStandard()
+    factorySubtitled = movie_factory.MovieSubtitled()
+
+    for line in screenings_info:
+        movie_info = line.split(',')
+        #print(movie_info)
+
+        if(movie_info[2] == "2D"):
+            if(movie_info[3] == "Subtitled"):
+                movie = factorySubtitled.create_2D_movie(movie_info[0], movie_info[1])
+            else:
+                movie = factoryStandard.create_2D_movie(movie_info[0], movie_info[1])
+        if(movie_info[2] == "3D"):
+            if(movie_info[3] == "Subtitled"):
+                movie = factorySubtitled.create_3D_movie(movie_info[0], movie_info[1])
+            else:
+                movie = factoryStandard.create_3D_movie(movie_info[0], movie_info[1])
+        
+        screenings_list.append(movie)
+
+    return screenings_list
