@@ -1,21 +1,8 @@
 from controllers import ui_controller, logic_controller
-from functools import wraps
 from utils import utils
+from interceptors import encryption_interceptor
 import requests
 import abc
-
-def encryption_interceptor(func):
-
-    @wraps(func)
-    def wrapper(*args, **kwargs):
-        y = list(args)
-        y[1] = utils.encrypt(y[1])
-        args = tuple(y)
-        result = func(*args, **kwargs)
-
-        return result
-
-    return wrapper
 
 class Invoker:
     # sends request to command
@@ -166,7 +153,7 @@ def validateLogin(window, username, password):
         #     "Reason": "Username Invalid"
         # })
 
-@encryption_interceptor
+@encryption_interceptor.encryption_interceptor
 def save_new_user_data(username, password):
     readData = open("databases/login_db.txt", "r")
     usernames = readData.readline()
