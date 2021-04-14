@@ -39,8 +39,11 @@ def concessionsEventLoop(window, event, values):
         except:
             sg.popup("Select a numeric value")
     if event == '-BASKET-':
-        concession_object = concessions_dict[values['-BASKET-'][0]]
-        removeFromConcessionsBasket(window, concession_object)
+        try:
+            concession_object = concessions_dict[values['-BASKET-'][0]]
+            removeFromConcessionsBasket(window, concession_object)
+        except:
+            sg.popup("No Items to remove")
 
 
 def backToMenu():
