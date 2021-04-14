@@ -51,3 +51,5 @@ Bugs:
 Failure of updated values when changing in user and switching to admin, ie. tickets.
 
 Empty basket click crash.
+
+Basket removes last item from basket, not one selected
