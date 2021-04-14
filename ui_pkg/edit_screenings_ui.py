@@ -20,8 +20,9 @@ for movie in screenings_list:
         output += showTime+" "
     movie_list_output.append(output)
 
+
 layout = [[sg.Text('Double click or press Enter on selected screening to edit')],
             [sg.Listbox(movie_list_output, size=(100, len(movie_list_output)), key='-MOVIES-', bind_return_key=True)],
-            [sg.Button('Save'), sg.Button('Add Screening'), sg.Button('Delete Selected'), sg.Button('Main Menu')]]
+            [sg.Button('Update'), sg.Button('Add Screening'), sg.Button('Delete Selected'), sg.Button('Main Menu')]]
 
 heading = "Edit Screenings"

@@ -122,52 +122,10 @@ def get_list(filename):
     return lines  
 
 def save_list(filename, list):
-    f = open(filename, "w")
-    for l in list:
-        f.write(l)
+    f = open("screenings_db.txt", "a")
+    print(list)
+    f.write(list+'\n')
     f.close()
-
-
-def convertToEditForm(input):
-    o = input.split(' -')[0]
-    input = input.replace(o+" -  ", "")
-    o = o.replace("Screen ", "")
-    output = input.split(': ')[0]
-    t = input.replace(output+":  ", "")
-    output = output + "," + o + ","
-    output = output + t.replace(" ", ",")
-    output = output.removesuffix(",")
-
-    return output
-
-def convertToSaveForm(input):
-    o = input.split(' -')[0]
-    input = input.replace(o+" -  ", "")
-    o = o.replace("Screen ", "")
-    output = input.split(': ')[0]
-    t = input.replace(output+": ", "")
-    output = output + "," + o
-    output = output + t.replace(" ", ", ")
-
-    return output
-
-def convertToDisplayForm(input):
-    elements = input.split(",")
-    count = 0
-    output = ""
-    t = ""
-    for element in elements:
-        if count == 0 : 
-            t = element + ":  "
-        elif count == 1:
-            if re.match("[0-9][0-9]|[0-9]", element):
-                output = "Screen " + element + " -  " + t
-        else:
-            if re.match("(2[0-3]:[0-5][0-9]|[0-1][0-9]:[0-5][0-9])", element):
-                output += element + " "
-        count += 1
-
-    return output
 
 def deleteSelected(delete, values):
     output = []
@@ -176,6 +134,35 @@ def deleteSelected(delete, values):
             output.append(v)
 
     return output   
+
+def append_to_file(filename, element):
+    with open(filename, 'a') as file:
+        file.write(element+"\n")
+
+def write_to_file(filename, element):
+    with open(filename, 'w') as file:
+        file.write(element+"\n")
+
+def get_movie_format():
+    file = open('databases/screenings_db.txt', 'r')
+    screenings_info = file.readlines()
+
+    screenings_list = get_movie_objetcs(screenings_info)
+
+    movie_list_output = []
+    for movie in screenings_list:
+        output = ""
+        output += "Screen " +movie.get_movie_screen()
+        output += " - "+movie.get_movie_title()
+        output += " : "+movie.get_movie_subtitled()
+        output += " - "+movie.get_movie_type()
+        output += " - Show Times -  "
+        for showTime in movie.get_movie_showTimes() :
+            output += showTime+" "
+        movie_list_output.append(output)
+
+    return movie_list_output
+
 
 def get_movie_objetcs(screenings_info):
     screenings_list = []
