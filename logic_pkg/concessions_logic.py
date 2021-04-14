@@ -89,8 +89,6 @@ def buyConcession(concession):
     if not found:
         concessionSales += concession+",1,\n"
 
-    logic_controller.logic.set_concessions_basket({'items': [], 'subtotal': 0})
-
     # requests.post("https://logs-01.loggly.com/inputs/990e729b-d1a0-4ad1-a774-78d9c11a93c7/tag/http/", json={
     #         "ConcessionPurchased": "Success",
     #     })
@@ -100,6 +98,6 @@ def buyConcession(concession):
 
 
 def emptyBasket(window):
-    logic_controller.logic.set_concessions_basket({'items': [], 'subtotal': 0})
+    logic_controller.logic.empty_concessions_basket()
     window['-BASKET-'].update(
         logic_controller.logic.get_concessions_basket()["items"])

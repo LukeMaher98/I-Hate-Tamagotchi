@@ -97,6 +97,9 @@ class Logic_Controller:
     def redo_concessions_basket(self):
         self.concession_basket.redo_state()
 
+    def empty_concessions_basket(self):
+        self.concession_basket.clear_state()
+
     def set_auth_type(self, auth_type):
         self._auth_type = auth_type
 
