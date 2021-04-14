@@ -1,5 +1,5 @@
 import PySimpleGUI as sg
-import utils
+from utils import utils
 from controllers import ui_controller, logic_controller
 
 def screeningsEventLoop(window, event, values):
@@ -21,7 +21,7 @@ def screeningsEventLoop(window, event, values):
         sg.popup('{}'.format(values['-List-'][0]))
     if event == 'Update':
         movie_list_output = utils.get_movie_format()
-        window['-List-'].update(values=m)
+        window['-List-'].update(values=movie_list_output)
 
 
 def backToMenu():
