@@ -127,13 +127,26 @@ def save_list(filename, list):
     f.write(list+'\n')
     f.close()
 
-def deleteSelected(delete, values):
-    output = []
-    for v in values:
-        if v != delete:
-            output.append(v)
+def deleteSelected(delete, values, filename):
+    count = 0
+    index = 0
+    for value in values :
+        if value == delete:
+            index = count +1 
+        else:
+            count += 1
+    
+    print(index)
 
-    return output   
+    with open(filename, "r") as f:
+        lines = f.readlines()
+    
+    count = 0
+    with open(filename, "w") as f:
+        for line in lines:
+            count += 1
+            if count != index:
+             f.write(line) 
 
 def append_to_file(filename, element):
     with open(filename, 'a') as file:

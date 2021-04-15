@@ -18,12 +18,12 @@ def eventLoop(window, event, values):
       #  else:
          #   g.popup("Screenings must be in format 'MovieTitle,Screen,Time1,...,TimeN")
     if event == 'Delete Selected':
-        try:
+       # try:
             d = values['-MOVIES-'][0]
-            v = utils.deleteSelected(d, window['-MOVIES-'].get_list_values())
-            window['-MOVIES-'].update(values=v)
-        except:
-            sg.popup("Select Screening to be deleted first!") 
+            utils.deleteSelected(d, window['-MOVIES-'].get_list_values(), file)
+            #window['-MOVIES-'].update(values=v)
+        #except:
+            #sg.popup("Select Screening to be deleted first!") 
     if event == 'Update':
         movie_list_output = utils.get_movie_format()
         window['-MOVIES-'].update(values=movie_list_output)
