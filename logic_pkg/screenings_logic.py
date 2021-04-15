@@ -1,9 +1,13 @@
 import PySimpleGUI as sg
 from controllers import ui_controller, logic_controller
+from utils import utils
 
 def screeningsEventLoop(window, event, values):
     if event == 'Back To Menu':
         backToMenu()
+    if event == 'Update':
+        movie_list_output = utils.get_movie_format()
+        window['-List-'].update(values=movie_list_output)
     if event == 'Book Ticket':
         try:
             movie = values['-List-'][0]
