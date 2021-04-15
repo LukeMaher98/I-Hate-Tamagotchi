@@ -123,7 +123,6 @@ def get_list(filename):
 
 def save_list(filename, list):
     f = open("screenings_db.txt", "a")
-    print(list)
     f.write(list+'\n')
     f.close()
 
@@ -148,7 +147,6 @@ def deleteSelected(delete, values, filename):
              f.write(line) 
 
 def append_to_file(filename, element):
-    print(element)
     if(element != ""):
         with open(filename, 'a') as file:
             file.write(element+"\n")
