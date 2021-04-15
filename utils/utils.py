@@ -1,6 +1,7 @@
 from entities import listings
 from entities import list_objects
 import re
+from entities import abstract_factory
 
 def read_file(filename):
     data = open(filename, "r")
@@ -121,60 +122,114 @@ def get_list(filename):
     return lines  
 
 def save_list(filename, list):
-    f = open(filename, "w")
-    for l in list:
-        f.write(l)
+    f = open("screenings_db.txt", "a")
+    print(list)
+    f.write(list+'\n')
     f.close()
 
 
-def convertToEditForm(input):
-    o = input.split(' -')[0]
-    input = input.replace(o+" -  ", "")
-    o = o.replace("Screen ", "")
-    output = input.split(': ')[0]
-    t = input.replace(output+":  ", "")
-    output = output + "," + o + ","
-    output = output + t.replace(" ", ",")
-    output = output.removesuffix(",")
+def deleteSelected(delete, values, filename):
+    count = 0
+    index = 0
+    for value in values :
+        if value == delete:
+            index = count +1 
+        else:
+            count += 1
 
-    return output
+    with open(filename, "r") as f:
+        lines = f.readlines()
 
-def convertToSaveForm(input):
-    o = input.split(' -')[0]
-    input = input.replace(o+" -  ", "")
-    o = o.replace("Screen ", "")
-    output = input.split(': ')[0]
-    t = input.replace(output+": ", "")
-    output = output + "," + o
-    output = output + t.replace(" ", ", ")
+    count = 0
+    with open(filename, "w") as f:
+        for line in lines:
+            count += 1
+            if count != index:
+             f.write(line) 
 
-    return output
+def append_to_file(filename, element):
+    print(element)
+    if(element != ""):
+        with open(filename, 'a') as file:
+            file.write(element+"\n")
 
-def convertToDisplayForm(input):
+def write_to_file(filename, element):
+    with open(filename, 'w') as file:
+        file.write(element+"\n")
+
+def verify_format(input):
     elements = input.split(",")
     count = 0
     output = ""
     t = ""
+    #r = re.compile('.{12},.{3},.{2},.{13}')
     for element in elements:
-        if count == 0 : 
-            t = element + ":  "
-        elif count == 1:
-            if re.match("[0-9][0-9]|[0-9]", element):
-                output = "Screen " + element + " -  " + t
-        else:
-            if re.match("(2[0-3]:[0-5][0-9]|[0-1][0-9]:[0-5][0-9])", element):
-                output += element + " "
         count += 1
+     #if count == 0:
+         #   if re.match("[0-9][0-9]|[0-9]", element):
+          #      print("NAME MATCHES")
+        #elif count == 1:
+         #   if re.match("[0-9][0-9]", element):
+          #      print("SCREEN MATCHES")
+        #elif count == 2:
+         #   if re.match("[0-9][0-9]", element):
+          #      print("Type MATCHES")
+        #elif count == 3:
+         #   if re.match("[0-9][0-9]", element):
+          #      print("SUBTITLED MATCHES")
+    if count >= 5:
+        return True
+    else:
+        return False
 
-    return output
+def get_movie_format():
+    file = open('databases/screenings_db.txt', 'r')
+    screenings_info = file.readlines()  
+    screenings_list = get_movie_objetcs(screenings_info)
 
-def deleteSelected(delete, values):
-    output = []
-    for v in values:
-        if v != delete:
-            output.append(v)
+    movie_list_output = []
+    for movie in screenings_list:
+        output = ""
+        output += "Screen " +movie.get_movie_screen()
+        output += " - "+movie.get_movie_title()
+        output += " : "+movie.get_movie_subtitled()
+        output += " - "+movie.get_movie_type()
+        output += " - Show Times -  "
+        for showTime in movie.get_movie_showTimes() :
+            output += showTime+" "
+        movie_list_output.append(output)
 
-    return output   
+    return movie_list_output
+
+
+def get_movie_objetcs(screenings_info):
+    screenings_list = []
+    factoryStandard = abstract_factory.MovieStandard()
+    factorySubtitled = abstract_factory.MovieSubtitled()
+
+    for line in screenings_info:
+        movie_info = line.split(',')
+        show_times = []
+        output = ""
+        i = 4
+        while i < len(movie_info)-1:
+            output += " "+ movie_info[i]
+            i += 1
+        show_times.append(output)
+
+        if(movie_info[2] == "2D"):
+            if(movie_info[3] == "Subtitled"):
+                movie = factorySubtitled.create_2D_movie(movie_info[0], movie_info[1], show_times)
+            else:
+                movie = factoryStandard.create_2D_movie(movie_info[0], movie_info[1], show_times)
+        if(movie_info[2] == "3D"):
+            if(movie_info[3] == "Subtitled"):
+                movie = factorySubtitled.create_3D_movie(movie_info[0], movie_info[1], show_times)
+            else:
+                movie = factoryStandard.create_3D_movie(movie_info[0], movie_info[1], show_times)
+        screenings_list.append(movie)
+ 
+    return screenings_list 
 
 plainArr = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
             "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
