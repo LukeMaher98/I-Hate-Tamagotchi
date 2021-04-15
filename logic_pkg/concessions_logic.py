@@ -4,6 +4,7 @@ from entities import concession_builder as cb
 from entities import listings
 import requests
 from utils import utils
+from interceptors import concession_interceptor
 
 
 concessions_info = utils.read_file("databases/concessions_db.txt")
@@ -52,6 +53,7 @@ def backToMenu():
     logic_controller.logic.set_main_menu_user_loop()
 
 
+@concession_interceptor.concession_interceptor
 def addToConcessionsBasket(window, concession_object, amount):
     basket = logic_controller.logic.get_concessions_basket()
     for i in range(amount):
@@ -86,6 +88,12 @@ def redo_basket(window):
 def buyConcession(concession):
     concessionSales = ""
     found = False
+
+    #extract name from concession object which is passed as string
+    temp = concession.split(", ")
+    temp = temp[0].split("Name: ")
+    concession = temp[1]
+
     with open("databases/concession_sales_db.txt", "r") as db:
         for line in db:
             string = line.split(",")
@@ -102,9 +110,8 @@ def buyConcession(concession):
     #         "ConcessionPurchased": "Success",
     #     })
 
-    db = open("databases/concession_sales_db.txt", "w")
-    db.write(concessionSales)
-
+    with open("databases/concession_sales_db.txt", "w") as db:
+        db.write(concessionSales)
 
 def emptyBasket(window):
     logic_controller.logic.empty_concessions_basket()
