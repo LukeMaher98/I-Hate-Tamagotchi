@@ -1,4 +1,6 @@
 from controllers import ui_controller, logic_controller
+from utils import utils
+from interceptors import encryption_interceptor
 import requests
 import abc
 
@@ -129,7 +131,7 @@ def validateLogin(window, username, password):
     receiver = Receiver()
     invoker = Invoker()
     if username in usernames:
-        if password == passwords[usernames.index(username)]:
+        if password == utils.decrypt(passwords[usernames.index(username)]):
             if authTypes[usernames.index(username)] == "admin":
                 admin_login = AdminLoginCommand(receiver, username)
                 invoker.store_command(admin_login)
@@ -151,6 +153,7 @@ def validateLogin(window, username, password):
         #     "Reason": "Username Invalid"
         # })
 
+@encryption_interceptor.encryption_interceptor
 def save_new_user_data(username, password):
     readData = open("databases/login_db.txt", "r")
     usernames = readData.readline()
