@@ -10,18 +10,19 @@ def eventLoop(window, event, values):
     if event == '-MOVIES-':
         sg.popup('{}'.format(values['-MOVIES-'][0]))
     if event == 'Add Screening':
-        text = sg.popup_get_text("Add screening in format 'MovieTitle, Screen No, 2D or 3D, Subtitled or Not Subtitled, Time1,...,TimeN,'")
-        warning_text = "Screenings must be in format ''MovieTitle, Screen No, 2D or 3D, Subtitled or Not Subtitled, Time1,...,TimeN,'"
-        if text != "":
-            format = utils.verify_format(text)
-            if format != False:
-                utils.append_to_file("databases/screenings_db.txt",text)
-                m = utils.get_movie_format()
-                window['-MOVIES-'].update(values=m)
+        text = sg.popup_get_text("Add screening in format 'MovieTitle,Screen No,2D or 3D,Subtitled or Not Subtitled,Time1,...,TimeN,'")
+        warning_text = "Screenings must be in format ''MovieTitle,Screen No,2D or 3D,Subtitled or Not Subtitled,Time1,...,TimeN,'"
+        if text != None :
+            if text != "" :
+                format = utils.verify_format(text)
+                if format != False:
+                    utils.append_to_file("databases/screenings_db.txt",text)
+                    m = utils.get_movie_format()
+                    window['-MOVIES-'].update(values=m)
+                else:
+                    sg.popup(warning_text)
             else:
                 sg.popup(warning_text)
-        else:
-            sg.popup(warning_text)
     if event == 'Delete Selected':
         try:
             d = values['-MOVIES-'][0]
