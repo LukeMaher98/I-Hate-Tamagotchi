@@ -149,18 +149,48 @@ def deleteSelected(delete, values, filename):
              f.write(line) 
 
 def append_to_file(filename, element):
-    with open(filename, 'a') as file:
-        file.write(element+"\n")
+    print(element)
+    if(element != ""):
+        with open(filename, 'a') as file:
+            file.write(element+"\n")
 
 def write_to_file(filename, element):
     with open(filename, 'w') as file:
         file.write(element+"\n")
 
+def verify_format(input):
+    print(input)
+    elements = input.split(",")
+    count = 0
+    output = ""
+    t = ""
+    #r = re.compile('.{12},.{3},.{2},.{13}')
+    for element in elements:
+        count += 1
+        #if count == 0:
+         #   if re.match("[0-9][0-9]|[0-9]", element):
+          #      print("NAME MATCHES")
+        #elif count == 1:
+         #   if re.match("[0-9][0-9]", element):
+          #      print("SCREEN MATCHES")
+        #elif count == 2:
+         #   if re.match("[0-9][0-9]", element):
+          #      print("Type MATCHES")
+        #elif count == 3:
+         #   if re.match("[0-9][0-9]", element):
+          #      print("SUBTITLED MATCHES")
+    if count >= 5:
+        return True
+    else:
+        return False
+
 def get_movie_format():
     file = open('databases/screenings_db.txt', 'r')
     screenings_info = file.readlines()
+    
 
     screenings_list = get_movie_objetcs(screenings_info)
+   # print(screenings_list)
 
     movie_list_output = []
     for movie in screenings_list:
@@ -174,6 +204,7 @@ def get_movie_format():
             output += showTime+" "
         movie_list_output.append(output)
 
+    #print(movie_list_output)
     return movie_list_output
 
 
@@ -186,7 +217,6 @@ def get_movie_objetcs(screenings_info):
         movie_info = line.split(',')
         show_times = []
         output = ""
-
         i = 4
         while i < len(movie_info)-1:
             output += " "+ movie_info[i]
