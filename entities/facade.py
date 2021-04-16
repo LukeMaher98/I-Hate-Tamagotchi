@@ -4,16 +4,16 @@ from utils import utils
 class Reader: 
 
     def read(self, filename, user):
-        interaction = []
+        data = []
         if "ticket" in filename:
-            interaction = utils.TicketSaleReader().read(filename)
+            data = utils.TicketSaleReader().read(filename)
         elif "concession_sales" in filename:
-            interaction = utils.ConcessionSaleReader().read(filename)
+            data = utils.ConcessionSaleReader().read(filename)
         elif "concessions" in filename:
-            interaction = utils.ConcessionReader().read(filename)
+            data = utils.ConcessionReader().read(filename)
         elif user != "":
-            interaction = utils.BookingsReader().read(filename, user)
+            data = utils.BookingsReader().read(filename, user)
         else:
-            interaction = utils.BookingsReviewReader().read(filename)
+            data = utils.BookingsReviewReader().read(filename)
 
-        return interaction
+        return data
