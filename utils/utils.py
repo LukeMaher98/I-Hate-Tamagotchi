@@ -1,73 +1,108 @@
-from entities import listings
 from entities import list_objects
-import re
 from entities import abstract_factory
 
-def read_file(filename):
-    data = open(filename, "r")
-    list = []
-    for line in data: 
-        currentline = line.split(",")
-        # Remove empty items
-        currentline = currentline[:-1]
-        list.append(currentline)
-    return list
+class ConcessionReader:
+    
+    def read(self, filename):
+        data = open(filename, "r")
+        list = []
+        for line in data: 
+            currentline = line.split(",")
+            # Remove empty items
+            currentline = currentline[:-1]
+            list.append(currentline)
+        return list
 
-def get_view_list(type, filename):
-        listData = open(filename, "r")
-        lineData = listData
-        list_data = []
-        entryListing = 0
-        for line in lineData:
-            index = 0
-            length = len(line)
-            current_entry = ["","",[]]
-            while index < length:
-                if line[index] == ",":
-                    index += 1
-                    break
-                else:
-                    current_entry[0] +=line[index]
-                index += 1
-            while index < length:
-                if line[index] == ",":
-                    index += 1
-                    break
-                else:
-                    current_entry[1] +=line[index]
-                index += 1
-            hold = ""
-            if type == "movies" :
+class ConcessionSaleReader:
+
+    def read(self, filename):
+            listData = open(filename, "r")
+            lineData = listData
+            list_data = []
+            entryListing = 0
+            for line in lineData:
+                index = 0
+                length = len(line)
+                current_entry = ["","",[]]
                 while index < length:
                     if line[index] == ",":
                         index += 1
-                        current_entry[2].append(hold)
-                        hold = ""
+                        break
                     else:
-                        hold +=line[index]
+                        current_entry[0] +=line[index]
                     index += 1
-                hold = hold[:-1]
-                current_entry[2].append(hold)
-                entryListing = list_objects.Movie(current_entry)
-            if type == "concessions":
-                entryListing = list_objects.Concession(current_entry)
-            if type == "concession sale":
+                while index < length:
+                    if line[index] == ",":
+                        index += 1
+                        break
+                    else:
+                        current_entry[1] +=line[index]
+                    index += 1
                 entryListing = list_objects.ConcessionSales(current_entry)
-            if type == "ticket sale":
-                entryListing = list_objects.TicketSales(current_entry)
-            list_data.append(entryListing)
-        
-        return list_data
+                list_data.append(entryListing)
+            
+            return list_data
 
-def save_to_file(filename, content):
-    f = open(filename, "w")  
-    for c in content:
-        n = c.split(': ')[0]
-        t = c.replace(n+":", "")
-        n = n + "," + t.replace("  ", "")
-        if n.endswith("\n") != True:
-            n = n + "\n"
-        f.write(n)
+class TicketSaleReader:
+
+    def read(self, filename):
+            listData = open(filename, "r")
+            lineData = listData
+            list_data = []
+            entryListing = 0
+            for line in lineData:
+                index = 0
+                length = len(line)
+                current_entry = ["","",[]]
+                while index < length:
+                    if line[index] == ",":
+                        index += 1
+                        break
+                    else:
+                        current_entry[0] +=line[index]
+                    index += 1
+                while index < length:
+                    if line[index] == ",":
+                        index += 1
+                        break
+                    else:
+                        current_entry[1] +=line[index]
+                    index += 1
+                entryListing = list_objects.TicketSales(current_entry)
+                list_data.append(entryListing)
+            
+            return list_data
+
+class BookingsReader:
+
+    def read(self, filename, user):
+        bookings = []
+        with open(filename, "r") as db:
+            for line in db:
+                string = line.split(",")
+                if user == string[0]:
+                    bookings.append(string[1] + ": " + string[2])
+        
+        return bookings
+
+class BookingsReviewReader:
+
+    def read(self, filename):
+        dict = {}
+        with open(filename, "r") as db:
+            for line in db:
+                movie = line.split(",")[1]
+                if movie not in dict:
+                    dict[movie] = 1
+                else:
+                    dict[movie] = dict[movie] + 1
+                
+        dictlist = []
+        for key, value in dict.items():
+            temp = f"{key}: {value}"
+            dictlist.append(temp)
+        
+        return dictlist
 
 # true for ui format, false for database format
 def title_times_split(string, ui):
@@ -91,41 +126,6 @@ def title_times_split(string, ui):
                 break
 
     return title, showTimes
-
-def read_bookings(user):
-    bookings = []
-    with open("databases/bookings_db.txt", "r") as db:
-        for line in db:
-            string = line.split(",")
-            if user == string[0]:
-                bookings.append(string[1] + ": " + string[2])
-    
-    return bookings
-
-def read_bookings_review():
-    dict = {}
-    bookings = []
-    with open("databases/bookings_db.txt", "r") as db:
-        for line in db:
-            movie = line.split(",")[1]
-            if movie not in dict:
-                dict[movie] = 1
-            else:
-                dict[movie] = dict[movie] + 1
-    
-    return dict.items()
-
-def get_list(filename):
-    f = open(filename, "r")
-    lines = f.readlines()  
-
-    return lines  
-
-def save_list(filename, list):
-    f = open("screenings_db.txt", "a")
-    f.write(list+'\n')
-    f.close()
-
 
 def deleteSelected(delete, values, filename):
     count = 0

@@ -1,9 +1,9 @@
 import PySimpleGUI as sg
-from utils import utils
-from entities import listings
-Heading = "TheAter Ticket Sales"
+from entities import listings, facade
 
-ticket_sales_info = utils.get_view_list("ticket sale","databases/ticket_sales_db.txt")
+Heading = "TheAter Ticket Sales"
+reader = facade.Reader()
+ticket_sales_info = reader.read("databases/ticket_sales_db.txt", "")
 
 ticket_sales_list = listings.list_factory.create_list("ticket sale", ticket_sales_info)
 ticket_sales_screen = ticket_sales_list.generate_list()
