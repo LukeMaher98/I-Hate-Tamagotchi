@@ -1,24 +1,25 @@
 import PySimpleGUI as sg
 from controllers import ui_controller, logic_controller
 from utils import utils
-import re
+from entities import facade
 
+reader = facade.Reader()
 filename = "databases/concessions_db.txt"
 
 def eventLoop(window, event, values):
     if event == 'Main Menu':
-        data = utils.read_file(filename)
+        data = reader.read(filename, "")
         concession_screen = data[0]
         window['-CONCESSIONS-'].update(values=concession_screen)
         backToMenu()
     if event == 'Add Concession':
-        data = utils.read_file(filename)
+        data = reader.read(filename, "")
         if len(data) > 1:
             items = ''.join([str(elem) + "," for elem in data[1]])
             text = sg.popup_get_text(f"Add one of the following concessions: {items}")
             if text in data[1]:
-                add_concession(text)
-                data = utils.read_file(filename)
+                add_concession(filename, text)
+                ddata = reader.read(filename, "")
                 concession_screen = data[0]
                 window['-CONCESSIONS-'].update(values=concession_screen)
             else:
@@ -29,7 +30,7 @@ def eventLoop(window, event, values):
         try:
             text = values['-CONCESSIONS-'][0]
             remove_concession(text)
-            data = utils.read_file(filename)
+            data = reader.read(filename, "")
             concession_screen = data[0]
             window['-CONCESSIONS-'].update(values=concession_screen)
         except:
@@ -40,8 +41,8 @@ def backToMenu():
     ui_controller.ui.open_main_menu_admin_ui()
     logic_controller.logic.set_main_menu_admin_loop()
 
-def add_concession(text):
-    data = utils.read_file(filename)
+def add_concession(filename, text):
+    data = reader.read(filename, "")
     f = open(filename, "w")
     present = ''.join([str(elem) + "," for elem in data[0]])
     present += text + ",\n"
@@ -51,8 +52,8 @@ def add_concession(text):
 
     f.write(present+absent)
 
-def remove_concession(text):
-    data = utils.read_file(filename)
+def remove_concession(filename, text):
+    data = reader.read(filename, "")
     f = open(filename, "w")
 
     data[0].remove(text)
