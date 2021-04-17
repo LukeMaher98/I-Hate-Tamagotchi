@@ -1,8 +1,8 @@
 import abc
-from entities import listing_bridge as lb
+from bridge import bridge
 
-movie_format = lb.MovieFormat()
-concession_format = lb.ConcessionFormat()
+movie_format = bridge.MovieFormat()
+concession_format = bridge.ConcessionFormat()
 
 
 class List(metaclass=abc.ABCMeta):
@@ -18,7 +18,7 @@ class MovieList(List):
     def generate_list(self):
         full_list = []
         for file in self.filename:
-            m_listing = lb.ProductListing(
+            m_listing = bridge.ProductListing(
                 movie_format, file)
             full_list.append(m_listing.get_listing())
         return full_list
@@ -31,14 +31,14 @@ class ConcessionList(List):
     def generate_list(self):
         full_list = []
         for file in self.filename[0]:
-            full_list.append(lb.ProductListing(
+            full_list.append(bridge.ProductListing(
                 concession_format, file).get_listing())
         return full_list
 
     def generate_dict(self):
         full_dict = {}
         for file in self.filename[0]:
-            concession = lb.ProductListing(
+            concession = bridge.ProductListing(
                 concession_format, file).get_listing(True)
             full_dict[concession.specification()] = concession
         return full_dict
@@ -51,7 +51,7 @@ class ConcessionSalesList(List):
     def generate_list(self):
         full_list = []
         for file in self.filename:
-            full_list.append(lb.SalesListing(
+            full_list.append(bridge.SalesListing(
                 concession_format, file).get_listing())
         return full_list
 
@@ -63,7 +63,7 @@ class TicketSalesList(List):
     def generate_list(self):
         full_list = []
         for file in self.filename:
-            full_list.append(lb.SalesListing(
+            full_list.append(bridge.SalesListing(
                 movie_format, file).get_listing())
         return full_list
 
@@ -80,4 +80,4 @@ class ListFactory:
             return TicketSalesList(list_info)
 
 
-list_factory = ListFactory()
+factory = ListFactory()

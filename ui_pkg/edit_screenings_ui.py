@@ -1,6 +1,5 @@
 import PySimpleGUI as sg
 from utils import utils
-from entities import listings
 
 heading = "Edit Screenings"
 movie_list_output = utils.get_movie_format()

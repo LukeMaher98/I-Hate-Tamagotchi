@@ -1,7 +1,7 @@
 import PySimpleGUI as sg
 from controllers import ui_controller, logic_controller
 from utils import utils
-from entities import facade
+from facade import facade
 
 reader = facade.Reader()
 filename = "databases/concessions_db.txt"

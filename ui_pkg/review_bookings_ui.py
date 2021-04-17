@@ -1,5 +1,5 @@
 import PySimpleGUI as sg
-from entities import facade
+from facade import facade
 
 Heading = "TheAter Bookings Review"
 reader = facade.Reader()
