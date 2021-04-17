@@ -19,7 +19,7 @@ def eventLoop(window, event, values):
             text = sg.popup_get_text(f"Add one of the following concessions: {items}")
             if text in data[1]:
                 add_concession(filename, text)
-                ddata = reader.read(filename, "")
+                data = reader.read(filename, "")
                 concession_screen = data[0]
                 window['-CONCESSIONS-'].update(values=concession_screen)
             else:
@@ -29,7 +29,7 @@ def eventLoop(window, event, values):
     if event == 'Delete Selected':
         try:
             text = values['-CONCESSIONS-'][0]
-            remove_concession(text)
+            remove_concession(filename, text)
             data = reader.read(filename, "")
             concession_screen = data[0]
             window['-CONCESSIONS-'].update(values=concession_screen)
