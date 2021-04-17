@@ -11,7 +11,7 @@ from logic_pkg import purchase_ticket_logic
 from logic_pkg import redeem_booking_logic
 from logic_pkg import review_bookings_logic
 
-from utils import memento as mem
+from memento import caretaker, originator
 
 
 class Logic_Controller:
@@ -30,8 +30,8 @@ class Logic_Controller:
         self._review_booking_loop = review_bookings_logic.reviewBookingLoop
         self._edit_screenings_loop = edit_screenings_logic.eventLoop
         self._edit_concessions_loop = edit_concessions_logic.eventLoop
-        self.concession_basket = mem.Caretaker(
-            mem.Originator({'items': [], 'subtotal': 0}))
+        self.concession_basket = caretaker.Caretaker(
+            originator.Originator({'items': [], 'subtotal': 0}))
         self._current_user = None
         self._current_loop = self._login_loop
         self._auth_type = None

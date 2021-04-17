@@ -2,7 +2,7 @@ from controllers import ui_controller, logic_controller
 from utils import utils
 from interceptors import encryption_interceptor
 import requests
-from entities import command
+from command import command
 
 
 def loginEventLoop(window, event, values):

@@ -1,6 +1,6 @@
 import PySimpleGUI as sg
 from controllers import logic_controller
-from entities import facade
+from facade import facade
 
 Heading = "TheAter My Bookings"
 reader = facade.Reader()

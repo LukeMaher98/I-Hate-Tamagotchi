@@ -1,5 +1,5 @@
 import PySimpleGUI as sg
-from entities import facade
+from facade import facade
 
 reader = facade.Reader()
 concession_screen = reader.read("databases/concessions_db.txt", "")
