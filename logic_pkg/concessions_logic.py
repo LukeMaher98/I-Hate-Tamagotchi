@@ -3,6 +3,8 @@ from controllers import ui_controller, logic_controller
 from bridge import listing_factory
 from facade import facade
 import requests
+from utils import utils
+from interceptors import concession_interceptor
 
 
 reader = facade.Reader()
@@ -40,7 +42,17 @@ def concessionsEventLoop(window, event, values):
             sg.popup("Select a numeric value")
     if event == '-BASKET-':
         try:
-            concession_object = concessions_dict[values['-BASKET-'][0]]
+            #remove find item in dictionary by name
+            item = values['-BASKET-'][0].split(",")
+            myList = list(concessions_dict)
+
+            for i in myList:
+                i = i.split(",")
+                if i[0] == item[0]:
+                    item = i[0] + "," + i[1] + "," + i[2]
+                    break
+
+            concession_object = concessions_dict[item]
             removeFromConcessionsBasket(window, concession_object)
         except:
             sg.popup("No Items to remove")
@@ -52,6 +64,7 @@ def backToMenu():
     logic_controller.logic.set_main_menu_user_loop()
 
 
+@concession_interceptor.concession_interceptor
 def addToConcessionsBasket(window, concession_object, amount):
     basket = logic_controller.logic.get_concessions_basket()
     for i in range(amount):
@@ -61,7 +74,7 @@ def addToConcessionsBasket(window, concession_object, amount):
     window['-BASKET-'].update(
         logic_controller.logic.get_concessions_basket()["items"])
 
-
+@concession_interceptor.concession_interceptor
 def removeFromConcessionsBasket(window, concession_object):
     basket = logic_controller.logic.get_concessions_basket()
     basket["items"].remove(concession_object.specification())
@@ -70,13 +83,13 @@ def removeFromConcessionsBasket(window, concession_object):
     window['-BASKET-'].update(
         logic_controller.logic.get_concessions_basket()["items"])
 
-
+@concession_interceptor.concession_interceptor
 def undo_basket(window):
     logic_controller.logic.undo_concessions_basket()
     window['-BASKET-'].update(
         logic_controller.logic.get_concessions_basket()["items"])
 
-
+@concession_interceptor.concession_interceptor
 def redo_basket(window):
     logic_controller.logic.redo_concessions_basket()
     window['-BASKET-'].update(
@@ -87,6 +100,12 @@ def redo_basket(window):
 def buyConcession(concession):
     concessionSales = ""
     found = False
+
+    #extract name from concession object which is passed as string
+    temp = concession.split(", ")
+    temp = temp[0].split("Name: ")
+    concession = temp[1]
+
     with open("databases/concession_sales_db.txt", "r") as db:
         for line in db:
             string = line.split(",")
@@ -103,9 +122,8 @@ def buyConcession(concession):
     #         "ConcessionPurchased": "Success",
     #     })
 
-    db = open("databases/concession_sales_db.txt", "w")
-    db.write(concessionSales)
-
+    with open("databases/concession_sales_db.txt", "w") as db:
+        db.write(concessionSales)
 
 def emptyBasket(window):
     logic_controller.logic.empty_concessions_basket()
