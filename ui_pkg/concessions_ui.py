@@ -1,11 +1,12 @@
 import PySimpleGUI as sg
 from controllers import logic_controller
-from utils import utils
-from entities import listings
+from bridge import listing_factory
+from facade import facade
 
-concessions_info = utils.read_file("databases/concessions_db.txt")
+reader = facade.Reader()
+concessions_info = reader.read("databases/concessions_db.txt", "")
 
-concessions_list = listings.list_factory.create_list(
+concessions_list = listing_factory.factory.create_list(
     "concession", concessions_info)
 concessions_screen = concessions_list.generate_list()
 

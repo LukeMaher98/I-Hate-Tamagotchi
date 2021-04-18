@@ -1,10 +1,11 @@
 import PySimpleGUI as sg
-from utils import utils
+from facade import facade
 
 Heading = "TheAter Bookings Review"
+reader = facade.Reader()
 
 def showLayout():
-    bookingsInfo = utils.read_bookings_review()
+    bookingsInfo = reader.read("databases/bookings_db.txt","")
     
     return [[sg.Text("Bookings Review")], 
              [sg.Listbox(bookingsInfo, size=(100, len(bookingsInfo)), key='-List-', enable_events=True)],

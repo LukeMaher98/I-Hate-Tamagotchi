@@ -1,7 +1,10 @@
+from os import read
 import PySimpleGUI as sg
 from controllers import ui_controller, logic_controller
-from entities import listings
-from utils import utils
+from bridge import listing_factory
+from facade import facade
+
+reader = facade.Reader()
 
 def concessionSalesEventLoop(window, event, values):
     if event == 'Back To Menu':
@@ -9,8 +12,8 @@ def concessionSalesEventLoop(window, event, values):
     if event == '-List-':
         sg.popup('{} sales'.format(values['-List-'][0]))
     if event == 'Update Values':
-        concession_sales_info = utils.get_view_list("concession sale","databases/concession_sales_db.txt")
-        concession_sales_list = listings.list_factory.create_list("concession sale", concession_sales_info)
+        concession_sales_info = reader.read("databases/concession_sales_db.txt", "")
+        concession_sales_list = listing_factory.factory.create_list("concession sale", concession_sales_info)
         concession_sales_screen = concession_sales_list.generate_list()
         window['-List-'].update(values=concession_sales_screen)
 

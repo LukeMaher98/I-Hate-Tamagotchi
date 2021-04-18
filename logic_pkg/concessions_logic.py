@@ -1,15 +1,16 @@
 import PySimpleGUI as sg
 from controllers import ui_controller, logic_controller
-from entities import concession_builder as cb
-from entities import listings
+from bridge import listing_factory
+from facade import facade
 import requests
 from utils import utils
 from interceptors import concession_interceptor
 
 
-concessions_info = utils.read_file("databases/concessions_db.txt")
+reader = facade.Reader()
+concessions_info = reader.read("databases/concessions_db.txt", "")
 
-concessions_list = listings.list_factory.create_list(
+concessions_list = listing_factory.factory.create_list(
     "concession", concessions_info)
 concessions_dict = concessions_list.generate_dict()
 
@@ -89,6 +90,7 @@ def redo_basket(window):
         logic_controller.logic.get_concessions_basket()["items"])
 
 
+# Concession Sales are incremented or added to the database of sales
 def buyConcession(concession):
     concessionSales = ""
     found = False

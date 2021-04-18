@@ -1,11 +1,11 @@
 from utils import utils
-from entities import concession_builder as cb
+from builder import builder
 
-popcornBuilder = cb.PopcornBuilder()
-nachoBuilder = cb.NachoBuilder()
-colaBuilder = cb.ColaBuilder()
-hotdogBuilder = cb.HotDogBuilder()
-director = cb.Director()
+popcornBuilder = builder.PopcornBuilder()
+nachoBuilder = builder.NachoBuilder()
+colaBuilder = builder.ColaBuilder()
+hotdogBuilder = builder.HotDogBuilder()
+director = builder.Director()
 
 
 class Format:
@@ -18,11 +18,7 @@ class Format:
 
 class MovieFormat(Format):
     def format_sales(self, data):
-        output = ""
-        ticket_sales_info = data.get_ticket_sales_info()
-        output += ticket_sales_info[0]
-        output += " " + ticket_sales_info[1]
-        return output
+        return data[0] + " " + data[1]
 
     def format_product(self, data, return_type=False):
         output = ""
@@ -38,11 +34,7 @@ class MovieFormat(Format):
 
 class ConcessionFormat(Format):
     def format_sales(self, data):
-        output = ""
-        concession_sales_info = data.get_concession_sales_info()
-        output += concession_sales_info[0]
-        output += " " + concession_sales_info[1]
-        return output
+        return data[0] + " " + data[1]
 
     def format_product(self, data, return_type=False):
         if data == "popcorn":

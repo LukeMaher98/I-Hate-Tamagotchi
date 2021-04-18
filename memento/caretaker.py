@@ -1,31 +1,3 @@
-import copy
-
-
-class Memento:
-    def __init__(self, mem_state):
-        self.mem_state = mem_state
-
-    def rollback_state(self):
-        return self.mem_state
-
-
-class Originator:
-    def __init__(self, state):
-        self.state = state
-
-    def set_state(self, state):
-        self.state = state
-
-    def get_state(self):
-        return self.state
-
-    def save_state(self):
-        return Memento(copy.deepcopy(self.state))
-
-    def load_state(self, memento):
-        self.state = memento.rollback_state()
-
-
 class Caretaker:
     def __init__(self, originator):
         self.state_index = 0
@@ -59,4 +31,3 @@ class Caretaker:
         self.state_index = 0
         self.memory = [self.default_state]
         self.originator.set_state(self.default_state.rollback_state())
-
