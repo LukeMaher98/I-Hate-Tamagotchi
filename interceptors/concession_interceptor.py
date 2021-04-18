@@ -18,12 +18,14 @@ def concession_interceptor(func):
 
         #couting the number of instances of each item to be displayed
         for i in myItems:
+            anItem = i.split(", ")
+            anItem[2] = anItem[2].replace("Price: ", "")
             counter = 0
             if i not in countedItems:
                 for j in myItems:
                     if i == j:
                         counter += 1
-                myBasket.append(i + ", Amount: " + str(counter))
+                myBasket.append(anItem[0] + ", Amount: " + str(counter) + ", Price: " + str(int(anItem[2])*counter))
                 countedItems.append(i)
 
         window['-BASKET-'].update(myBasket)

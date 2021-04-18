@@ -42,9 +42,15 @@ def concessionsEventLoop(window, event, values):
             sg.popup("Select a numeric value")
     if event == '-BASKET-':
         try:
-            #remove amount from string
+            #remove find item in dictionary by name
             item = values['-BASKET-'][0].split(",")
-            item = item[0] + "," + item[1] + "," + item[2]
+            myList = list(concessions_dict)
+
+            for i in myList:
+                i = i.split(",")
+                if i[0] == item[0]:
+                    item = i[0] + "," + i[1] + "," + i[2]
+                    break
 
             concession_object = concessions_dict[item]
             removeFromConcessionsBasket(window, concession_object)

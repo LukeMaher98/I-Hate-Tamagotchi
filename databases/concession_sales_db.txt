@@ -1,4 +1,4 @@
-Nachos,67,
+Nachos,68,
 Popcorn,15,
-Cola,15,
+Cola,18,
 Hot Dog,9,
