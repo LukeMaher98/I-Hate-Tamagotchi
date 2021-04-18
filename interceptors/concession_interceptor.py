@@ -10,19 +10,21 @@ def concession_interceptor(func):
         window = y[0]
 
         #calling addToConcessionsBasket
-        result = func(*args, **kwargs)
+        func(*args, **kwargs)
 
         myItems = list(logic_controller.logic.get_concessions_basket()["items"])
         myBasket = []
+        countedItems = []
 
         #couting the number of instances of each item to be displayed
         for i in myItems:
             counter = 0
-            for j in myItems:
-                if i == j:
-                    counter += 1
-            myBasket.append(i + ", Amount: " + str(counter))
-            myItems[:] = (k for k in myItems if k != i)
+            if i not in countedItems:
+                for j in myItems:
+                    if i == j:
+                        counter += 1
+                myBasket.append(i + ", Amount: " + str(counter))
+                countedItems.append(i)
 
         window['-BASKET-'].update(myBasket)
 

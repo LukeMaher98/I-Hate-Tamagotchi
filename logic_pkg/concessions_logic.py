@@ -41,7 +41,11 @@ def concessionsEventLoop(window, event, values):
             sg.popup("Select a numeric value")
     if event == '-BASKET-':
         try:
-            concession_object = concessions_dict[values['-BASKET-'][0]]
+            #remove amount from string
+            item = values['-BASKET-'][0].split(",")
+            item = item[0] + "," + item[1] + "," + item[2]
+
+            concession_object = concessions_dict[item]
             removeFromConcessionsBasket(window, concession_object)
         except:
             sg.popup("No Items to remove")
@@ -63,7 +67,7 @@ def addToConcessionsBasket(window, concession_object, amount):
     window['-BASKET-'].update(
         logic_controller.logic.get_concessions_basket()["items"])
 
-
+@concession_interceptor.concession_interceptor
 def removeFromConcessionsBasket(window, concession_object):
     basket = logic_controller.logic.get_concessions_basket()
     basket["items"].remove(concession_object.specification())
@@ -72,13 +76,13 @@ def removeFromConcessionsBasket(window, concession_object):
     window['-BASKET-'].update(
         logic_controller.logic.get_concessions_basket()["items"])
 
-
+@concession_interceptor.concession_interceptor
 def undo_basket(window):
     logic_controller.logic.undo_concessions_basket()
     window['-BASKET-'].update(
         logic_controller.logic.get_concessions_basket()["items"])
 
-
+@concession_interceptor.concession_interceptor
 def redo_basket(window):
     logic_controller.logic.redo_concessions_basket()
     window['-BASKET-'].update(

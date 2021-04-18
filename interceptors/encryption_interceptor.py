@@ -13,8 +13,6 @@ def encryption_interceptor(func):
         args = tuple(y)
 
         #calling save_new_user_data with the encrypted password
-        result = func(*args, **kwargs)
-
-        return result
+        func(*args, **kwargs)
 
     return wrapper
