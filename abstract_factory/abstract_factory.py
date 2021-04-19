@@ -2,6 +2,7 @@ from __future__ import annotations
 import abc
 from abc import ABC, abstractmethod
 
+# Interface for operations
 class AbstractFactory(ABC):
     @abstractmethod
     def create_2D_movie(self) -> AbstractMovie2D:
@@ -11,6 +12,7 @@ class AbstractFactory(ABC):
     def create_3D_movie(self) -> AbstractMovie3D:
         pass
 
+# Two concrete factories that implement AbstractFactory interface
 class MovieStandard(AbstractFactory):
 
     def create_2D_movie(self, name, screen, showTimes) -> AbstractMovie2D:
@@ -28,6 +30,7 @@ class MovieSubtitled(AbstractFactory):
     def create_3D_movie(self, name, screen, showTimes) -> AbstractMovie3D:
         return SubtitledMovie3D(name, screen, showTimes)
 
+# Interface for movie2D product
 class AbstractMovie2D(ABC):
 
     @abstractmethod
@@ -46,6 +49,7 @@ class AbstractMovie2D(ABC):
     def get_movie_showTimes(self):
         pass
 
+# products created by corresponding factory
 class Movie2D(AbstractMovie2D):
 
     def __init__(self, name, screen, showTimes):
@@ -94,6 +98,7 @@ class SubtitledMovie2D(AbstractMovie2D):
     def get_movie_showTimes(self):
         return self.showTimes
 
+# Interface for movie3D product
 class AbstractMovie3D(ABC):
 
     @abstractmethod
@@ -112,6 +117,7 @@ class AbstractMovie3D(ABC):
     def get_movie_showTimes(self):
         pass
 
+# products created by corresponding factory
 class Movie3D(AbstractMovie3D):
     def __init__(self, name, screen, showTimes):
         self.name = name

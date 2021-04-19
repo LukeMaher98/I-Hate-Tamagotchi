@@ -1,7 +1,6 @@
 import PySimpleGUI as sg
 from controllers import logic_controller, ui_controller
 from utils import utils
-import requests
 
 def bookTicketLoop(window, event, values):
     if event == 'Back To Menu':
@@ -32,6 +31,3 @@ def addBooking(user, title, time):
     booking = user+","+title+","+time+",\n"
     db = open("databases/bookings_db.txt", "a")
     db.write(booking)
-    # requests.post("https://logs-01.loggly.com/inputs/990e729b-d1a0-4ad1-a774-78d9c11a93c7/tag/http/", json={
-    #         "Booking": "Success",
-    #     })

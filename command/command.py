@@ -1,60 +1,73 @@
 from controllers import ui_controller, logic_controller
+from utils import utils
 import abc    
 
 class Command(metaclass=abc.ABCMeta):
-    #interface for all concrete commands
+    # Interface for all concrete commands
 
     @abc.abstractmethod
     def execute(self):
         pass
 
 
-    #Define a binding between a Receiver object and an action.
-    #Implement Execute by invoking the corresponding operation(s) on
-    #Receiver. 
 class UserLoginCommand(Command) : 
 
-    def __init__(self, receiver, userName):
+    def __init__(self, receiver, username, usernames, password, passwords, window):
         self._receiver = receiver
-        self._userName = userName
-
+        self._username = username
+        self._usernames = usernames
+        self._password = password
+        self._passwords = passwords
+        self._window = window
+        
 
     def execute(self) :
-        self._receiver.user_login(self._userName)
+        self._receiver.user_login(self._username, self._usernames, self._password, self._passwords, self._window)
 
 
 class AdminLoginCommand(Command) : 
 
-    def __init__(self, receiver, userName):
+    def __init__(self, receiver, username, usernames, password, passwords, window):
         self._receiver = receiver
-        self._userName = userName
-
+        self._username = username
+        self._usernames = usernames
+        self._password = password
+        self._passwords = passwords
+        self._window = window
+        
 
     def execute(self) :
-        self._receiver.admin_login(self._userName)
+        self._receiver.admin_login(self._username, self._usernames, self._password, self._passwords, self._window)
     
 
 #Reciever below
 class Receiver :
-    
-    def user_login(self, userName):
-        ui_controller.ui.get_current_ui().Hide()
-        ui_controller.ui.open_main_menu_user_ui()
-        ui_controller.ui.set_current_user(userName)
-        logic_controller.logic.set_current_user(userName)
-        logic_controller.logic.set_main_menu_user_loop()
-        logic_controller.logic.set_auth_type("user")
+    # Processes user input for password and logs in
+    def user_login(self, username, usernames, password, passwords, window):
+        if password == utils.decrypt(passwords[usernames.index(username)]):
+            ui_controller.ui.get_current_ui().Hide()
+            ui_controller.ui.open_main_menu_user_ui()
+            ui_controller.ui.set_current_user(username)
+            logic_controller.logic.set_current_user(username)
+            logic_controller.logic.set_main_menu_user_loop()
+            logic_controller.logic.set_auth_type("user")
+        else:
+            window['-OUTPUT-'].update("Entered password is invalid")
 
-    def admin_login(self, userName):
-        ui_controller.ui.get_current_ui().Hide()
-        ui_controller.ui.open_main_menu_admin_ui()
-        ui_controller.ui.set_current_user(userName)
-        logic_controller.logic.set_current_user(userName)
-        logic_controller.logic.set_main_menu_admin_loop()
-        logic_controller.logic.set_auth_type("admin")  
+    # Processes user input for admin password and logs in
+    def admin_login(self, username, usernames, password, passwords, window):
+        if password == utils.decrypt(passwords[usernames.index(username)]):
+            ui_controller.ui.get_current_ui().Hide()
+            ui_controller.ui.open_main_menu_admin_ui()
+            ui_controller.ui.set_current_user(username)
+            logic_controller.logic.set_current_user(username)
+            logic_controller.logic.set_main_menu_admin_loop()
+            logic_controller.logic.set_auth_type("admin")
+        else:
+            window['-OUTPUT-'].update("Entered password is invalid")
 
 class Invoker:
-    # sends request to command
+    # Sends request to command
     def __init__(self):
         self._commands = []
 
