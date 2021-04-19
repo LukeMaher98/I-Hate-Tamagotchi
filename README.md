@@ -27,9 +27,9 @@ ADDED VALUE
 
 Unit Tests:
     - In the same directory used to run the initial program run the unit tests with the following command:
-        python -m unittest -v unittests/test_utils.py   
+        python -m unittest
     - The tests should run automatically  
-    - Each tests case will print either 'ok' or 'FAIL'  
+    - Each tests case will print either 'OK' or 'FAIL'  
     - In the case of a failure the actual and expected results will be printed for the user to compare    
 
 Software Metrics:
