@@ -56,21 +56,8 @@ def verify_format(input):
     count = 0
     output = ""
     t = ""
-    #r = re.compile('.{12},.{3},.{2},.{13}')
     for element in elements:
         count += 1
-     #if count == 0:
-         #   if re.match("[0-9][0-9]|[0-9]", element):
-          #      print("NAME MATCHES")
-        #elif count == 1:
-         #   if re.match("[0-9][0-9]", element):
-          #      print("SCREEN MATCHES")
-        #elif count == 2:
-         #   if re.match("[0-9][0-9]", element):
-          #      print("Type MATCHES")
-        #elif count == 3:
-         #   if re.match("[0-9][0-9]", element):
-          #      print("SUBTITLED MATCHES")
     if count >= 5:
         return True
     else:

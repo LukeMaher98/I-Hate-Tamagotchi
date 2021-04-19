@@ -2,7 +2,6 @@ import PySimpleGUI as sg
 from controllers import ui_controller, logic_controller
 from bridge import listing_factory
 from facade import facade
-import requests
 from utils import utils
 from interceptors import concession_interceptor
 
@@ -117,10 +116,6 @@ def buyConcession(concession):
 
     if not found:
         concessionSales += concession+",1,\n"
-
-    # requests.post("https://logs-01.loggly.com/inputs/990e729b-d1a0-4ad1-a774-78d9c11a93c7/tag/http/", json={
-    #         "ConcessionPurchased": "Success",
-    #     })
 
     with open("databases/concession_sales_db.txt", "w") as db:
         db.write(concessionSales)
