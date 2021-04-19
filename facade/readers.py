@@ -13,6 +13,11 @@ class ConcessionReader:
             list.append(currentline)
         return list
 
+class ScreeningReader:
+
+    def read(self, filename):
+        data = open(filename, 'r')
+        return data.readlines()  
 
 class ConcessionSaleReader:
 
@@ -20,7 +25,6 @@ class ConcessionSaleReader:
         listData = open(filename, "r")
         lineData = listData
         list_data = []
-        entryListing = 0
         for line in lineData:
             index = 0
             length = len(line)
@@ -50,7 +54,6 @@ class TicketSaleReader:
         listData = open(filename, "r")
         lineData = listData
         list_data = []
-        entryListing = 0
         for line in lineData:
             index = 0
             length = len(line)

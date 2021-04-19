@@ -2,11 +2,11 @@ import PySimpleGUI as sg
 from utils import utils
 
 Heading = "TheAter Screenings"
-movie_list_output = utils.get_movie_format()
+movie_display = utils.getMovieListings()
 
 
 userLayout = [[sg.Text("TheAter Screenings")],
-              [sg.Listbox(movie_list_output, size=(100, 15),
+              [sg.Listbox(movie_display, size=(100, 15),
                           key='-List-', bind_return_key=True)],
               [sg.Button('Update')],
               [sg.Button('Book Ticket')],
