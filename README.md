@@ -1,8 +1,7 @@
-# The-A-Ter
+# I-Hate-Tamagotchi
 Prerequisites:
     - Python 3 (Possible incompatibilities if -v < 3.9)  
     - PySimpleGui (pip install pysimplegui)  
-    - Software Metrics (pip install requests) (see guide below)  
 
 How To Run:
     - Copy repository into workspace  
@@ -32,24 +31,3 @@ Unit Tests:
     - Each tests case will print either 'ok' or 'FAIL'  
     - In the case of a failure the actual and expected results will be printed for the user to compare    
 
-Software Metrics:
-    - For recording our software metrics we use Loggly  
-    - Users will need to run the command "pip install requests"   
-    - Follow the guide to send logs to Loggly - https://documentation.solarwinds.com/en/Success_Center/loggly/Content/getting-started/gsg-send_data.html  
-    - Users DO NOT need to send logs in order for the program to run correctly.  
-    - A link to our dashboard (Only Developers have Access) - https://samuelpf98.loggly.com/dashboards/dashboard/65e60a9c-e6fe-49e4-9749-cb0920f1d648/view  
-    
-Dev Ops:
-    -   User Flow diagrams for several primary use cases  
-    -   Overview of adherence to Agile software devlopment principles  
-# I-Hate-Tamagotchi
-A+++ Name
-
-
-Bugs:
-
-Failure of updated values when changing in user and switching to admin, ie. tickets.
-
-Empty basket click crash.
-
-Basket removes last item from basket, not one selected
