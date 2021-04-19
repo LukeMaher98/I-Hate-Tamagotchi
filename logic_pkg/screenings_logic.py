@@ -6,8 +6,8 @@ def screeningsEventLoop(window, event, values):
     if event == 'Back To Menu':
         backToMenu()
     if event == 'Update':
-        movie_list_output = utils.get_movie_format()
-        window['-List-'].update(values=movie_list_output)
+        movie_display = utils.getMovieListings()
+        window['-List-'].update(values=movie_display)
     if event == 'Book Ticket':
         try:
             movie = values['-List-'][0]

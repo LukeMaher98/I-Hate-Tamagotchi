@@ -1,4 +1,8 @@
-from abstract_factory import abstract_factory
+from bridge import listing_factory
+from facade import facade
+from utils import utils
+
+reader = facade.Reader()
 
 # true for ui format, false for database format
 def title_times_split(string, ui):
@@ -63,54 +67,12 @@ def verify_format(input):
     else:
         return False
 
-def get_movie_format():
-    file = open('databases/screenings_db.txt', 'r')
-    screenings_info = file.readlines()  
-    screenings_list = get_movie_objetcs(screenings_info)
-
-    movie_list_output = []
-    for movie in screenings_list:
-        output = ""
-        output += "Screen " +movie.get_movie_screen()
-        output += " - "+movie.get_movie_title()
-        output += " : "+movie.get_movie_subtitled()
-        output += " - "+movie.get_movie_type()
-        output += " - Show Times -  "
-        for showTime in movie.get_movie_showTimes() :
-            output += showTime+" "
-        movie_list_output.append(output)
-
-    return movie_list_output
-
-
-def get_movie_objetcs(screenings_info):
-    screenings_list = []
-    factoryStandard = abstract_factory.MovieStandard()
-    factorySubtitled = abstract_factory.MovieSubtitled()
-
-    for line in screenings_info:
-        movie_info = line.split(',')
-        show_times = []
-        output = ""
-        i = 4
-        while i < len(movie_info)-1:
-            output += " "+ movie_info[i]
-            i += 1
-        show_times.append(output)
-
-        if(movie_info[2] == "2D"):
-            if(movie_info[3] == "Subtitled"):
-                movie = factorySubtitled.create_2D_movie(movie_info[0], movie_info[1], show_times)
-            else:
-                movie = factoryStandard.create_2D_movie(movie_info[0], movie_info[1], show_times)
-        if(movie_info[2] == "3D"):
-            if(movie_info[3] == "Subtitled"):
-                movie = factorySubtitled.create_3D_movie(movie_info[0], movie_info[1], show_times)
-            else:
-                movie = factoryStandard.create_3D_movie(movie_info[0], movie_info[1], show_times)
-        screenings_list.append(movie)
- 
-    return screenings_list 
+def getMovieListings():
+    movie_info = reader.read("databases/screenings_db.txt", "ticket")
+    print(movie_info)
+    movie_list = listing_factory.factory.create_list(
+        "movie", movie_info)
+    return movie_list.generate_list()
 
 plainArr = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
             "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]

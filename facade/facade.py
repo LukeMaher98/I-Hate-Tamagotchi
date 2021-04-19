@@ -7,6 +7,8 @@ class Reader:
         data = []
         if "ticket" in filename:
             data = readers.TicketSaleReader().read(filename)
+        elif "screenings" in filename:
+            data = readers.ScrreningReader().read(filename)
         elif "concession_sales" in filename:
             data = readers.ConcessionSaleReader().read(filename)
         elif "concessions" in filename:

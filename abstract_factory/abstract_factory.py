@@ -74,6 +74,16 @@ class Movie2D(AbstractMovie2D):
     def get_movie_showTimes(self):
         return self.showTimes
 
+    def get_movie_listing(self):       
+        output = "Screen " + self.screen
+        output += " - " + self.name
+        output += " : " + self.subtitled
+        output += " - " + self.type
+        output += " - Show Times -  "
+        for showTime in self.showTimes :
+            output += showTime + " "
+        return output
+
 class SubtitledMovie2D(AbstractMovie2D):
 
     def __init__(self, name, screen, showTimes):
@@ -97,6 +107,16 @@ class SubtitledMovie2D(AbstractMovie2D):
 
     def get_movie_showTimes(self):
         return self.showTimes
+
+    def get_movie_listing(self):       
+        output = "Screen " + self.screen
+        output += " - " + self.name
+        output += " : " + self.subtitled
+        output += " - " + self.type
+        output += " - Show Times -  "
+        for showTime in self.showTimes :
+            output += showTime + " "
+        return output
 
 # Interface for movie3D product
 class AbstractMovie3D(ABC):
@@ -141,6 +161,15 @@ class Movie3D(AbstractMovie3D):
     def get_movie_showTimes(self):
         return self.showTimes
 
+    def get_movie_listing(self):       
+        output = "Screen " + self.screen
+        output += " - " + self.name
+        output += " : " + self.subtitled
+        output += " - " + self.type
+        output += " - Show Times -  "
+        for showTime in self.showTimes :
+            output += showTime + " "
+        return output
 
 class SubtitledMovie3D(AbstractMovie3D):
     def __init__(self, name, screen, showTimes):
@@ -164,3 +193,13 @@ class SubtitledMovie3D(AbstractMovie3D):
 
     def get_movie_showTimes(self):
         return self.showTimes
+
+    def get_movie_listing(self):       
+        output = "Screen " + self.screen
+        output += " - " + self.name
+        output += " : " + self.subtitled
+        output += " - " + self.type
+        output += " - Show Times -  "
+        for showTime in self.showTimes :
+            output += showTime + " "
+        return output
