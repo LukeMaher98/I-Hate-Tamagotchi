@@ -69,7 +69,6 @@ def verify_format(input):
 
 def getMovieListings():
     movie_info = reader.read("databases/screenings_db.txt", "ticket")
-    print(movie_info)
     movie_list = listing_factory.factory.create_list(
         "movie", movie_info)
     return movie_list.generate_list()
