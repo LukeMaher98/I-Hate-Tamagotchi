@@ -57,12 +57,7 @@ def write_to_file(filename, element):
 
 def verify_format(input):
     elements = input.split(",")
-    count = 0
-    output = ""
-    t = ""
-    for element in elements:
-        count += 1
-    if count >= 5:
+    if len(elements) >= 5:
         return True
     else:
         return False
